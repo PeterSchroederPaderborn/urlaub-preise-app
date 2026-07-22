@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f4f0">
+<title>Urlaubspreise</title>
+<style>
+:root{--bg:#f5f4f0;--card:#ffffff;--text:#1a1a18;--mut:#6b6a64;--line:#e2e0d8;--acc:#0b5fa5;--ok-bg:#dcefdc;--ok-tx:#1f6b3a;--warn:#c00000;}
+@media(prefers-color-scheme:dark){:root{--bg:#161614;--card:#232320;--text:#ececea;--mut:#a3a29b;--line:#3a3936;--acc:#7db8e8;--ok-bg:#1f3a26;--ok-tx:#8fd3a0;--warn:#ff8a80;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;}
+header{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);padding:10px 14px;z-index:2;display:flex;align-items:center;gap:6px;}
+header h1{font-size:17px;margin:0;font-weight:600;}
+header .stand{font-size:12px;color:var(--mut);margin:2px 0 0;}
+main{padding:10px 10px 80px;max-width:720px;margin:0 auto;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 8px;display:flex;justify-content:space-between;gap:10px;align-items:center;}
+.card .t{font-weight:600;font-size:15px;margin:0;}
+.card .s{font-size:12.5px;color:var(--mut);margin:2px 0 0;}
+.preis{font-size:17px;font-weight:700;white-space:nowrap;text-align:right;}
+.badge{display:inline-block;background:var(--ok-bg);color:var(--ok-tx);font-size:12px;border-radius:6px;padding:1px 7px;margin-top:4px;}
+.direkt{color:var(--warn);font-weight:600;}
+a.link{color:var(--acc);font-size:12.5px;}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:2;padding-bottom:env(safe-area-inset-bottom);}
+nav a{flex:1;text-align:center;padding:7px 0 9px;color:var(--mut);text-decoration:none;font-size:12px;}
+nav a.on{color:var(--acc);font-weight:600;}
+nav .ic{display:block;font-size:19px;line-height:1.25;}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:999px;padding:4px 12px;font-size:13px;white-space:nowrap;}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.tag{font-size:12px;color:var(--mut);margin:14px 2px 6px;font-weight:600;}
+.back{background:none;border:none;font-size:26px;color:var(--acc);padding:0 8px 0 0;cursor:pointer;line-height:1;}
+.leer{color:var(--mut);text-align:center;padding:30px 0;}
+.seg{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0;}
+.seg button{background:none;border:none;font-size:13px;padding:5px 11px;color:var(--mut);cursor:pointer;}
+.seg button.on{background:var(--acc);color:#fff;}
+</style>
+</head>
+<body>
+<header id="hdr"></header>
+<main id="main"></main>
+<nav id="nav"></nav>
+<script>
+const D = {"stand": "22.07.2026 13:28", "n_best": 30, "konstellationen": [{"name": "USA", "schwelle": 500.0, "routen": [{"orig": "FRA", "dest": "SFO", "preis": 587, "dauer_hin_min": 1085, "dauer_rueck_min": 645, "airline": "Lufthansa, United", "umstiege_hin": 1, "umstiege_rueck": 0, "reisetage": 10, "dep": "2026-08-07", "ret": "2026-08-17", "unter": false, "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI2LTA4LTA3agcIARIDRlJBcgcIARIDU0ZPGh4SCjIwMjYtMDgtMTdqBwgBEgNTRk9yBwgBEgNGUkFAAUgBcAGCAQsI____________AZgBAQ"}]}, {"name": "Costa Rica", "schwelle": 600.0, "routen": [{"orig": "FRA", "dest": "SJC", "preis": 743, "dauer_hin_min": 1093, "dauer_rueck_min": 804, "airline": "American", "umstiege_hin": 2, "umstiege_rueck": 1, "reisetage": 10, "dep": "2026-08-07", "ret": "2026-08-17", "unter": false, "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI2LTA4LTA3agcIARIDRlJBcgcIARIDU0pDGh4SCjIwMjYtMDgtMTdqBwgBEgNTSkNyBwgBEgNGUkFAAUgBcAGCAQsI____________AZgBAQ"}]}], "historie": [{"datum": "2026-07-22", "konstellation": "Costa Rica", "route": "FRA->SJC", "orig": "FRA", "dest": "SJC", "preis": 743, "dep": "2026-08-07", "ret": "2026-08-17", "airline": "American", "umstiege_hin": 2, "umstiege_rueck": 1, "reisetage": 10}, {"datum": "2026-07-22", "konstellation": "USA", "route": "FRA->SFO", "orig": "FRA", "dest": "SFO", "preis": 587, "dep": "2026-08-07", "ret": "2026-08-17", "airline": "Lufthansa, United", "umstiege_hin": 1, "umstiege_rueck": 0, "reisetage": 10}]};
+D.konstellationen.forEach(k => k.routen.forEach(r => r.schwelle = k.schwelle));
+{ const s = {}; D.konstellationen.forEach(k => s[k.name] = k.schwelle);
+  D.historie.forEach(r => r.schwelle = (r.konstellation in s) ? s[r.konstellation] : null); }
+const M = document.getElementById("main"), H = document.getElementById("hdr"), N = document.getElementById("nav");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const eur = p => Number(p).toLocaleString("de-DE") + " €";
+const fd = iso => iso ? iso.slice(8,10) + "." + iso.slice(5,7) + "." : "";
+const fdLang = iso => iso.slice(8,10) + "." + iso.slice(5,7) + "." + iso.slice(0,4);
+const fdau = mi => mi == null ? "" : Math.floor(mi/60) + "h" + String(mi%60).padStart(2,"0");
+const umst = u => u === 0 ? '<span class="direkt">direkt</span>' : (u == null ? "?" : u + " Stopp" + (u > 1 ? "s" : ""));
+const alle = D.konstellationen.flatMap(k => k.routen.map(r => Object.assign({konst: k.name}, r)));
+const NAMEN = [...new Set(D.historie.map(r => r.konstellation))];
+let hFilter = "";
+let modus = "abs";
+try{ modus = localStorage.getItem("preismodus") || "abs"; }catch(e){}
+
+function setModus(m){ modus = m; try{ localStorage.setItem("preismodus", m); }catch(e){} render(); }
+function sortKey(v){ return modus === "rel" ? (v.schwelle != null ? v.preis - v.schwelle : 1e12) : v.preis; }
+function relTxt(d){ return (d > 0 ? "+" : "") + Number(d).toLocaleString("de-DE") + " €"; }
+
+function preisHtml(v){
+  if(modus === "rel" && v.schwelle != null){
+    const d = v.preis - v.schwelle;
+    return '<div class="preis" style="color:' + (d <= 0 ? "var(--ok-tx)" : "var(--warn)") + '">' + relTxt(d) +
+      '<div style="font-size:12px;color:var(--mut);font-weight:400;">' + eur(v.preis) + "</div></div>";
+  }
+  return '<div class="preis">' + eur(v.preis) + "</div>";
+}
+
+function kopf(titel, sub, zurueck){
+  const seg = '<div class="seg">' +
+    '<button' + (modus === "abs" ? ' class="on"' : "") + ' onclick="setModus(\'abs\')" title="Absolute Preise">&euro;</button>' +
+    '<button' + (modus === "rel" ? ' class="on"' : "") + ' onclick="setModus(\'rel\')" title="Relativ zur Schwelle">&plusmn;</button></div>';
+  H.innerHTML = (zurueck ? '<button class="back" onclick="history.back()">&#8249;</button>' : "") +
+    '<div style="flex:1;min-width:0;"><h1>' + esc(titel) + "</h1>" + (sub ? '<p class="stand">' + esc(sub) + "</p>" : "") + "</div>" + seg;
+}
+
+function karte(v, mitKonst){
+  return '<div class="card"><div>' +
+    '<p class="t">' + esc(v.orig) + " &#8594; " + esc(v.dest) + (mitKonst ? " &middot; " + esc(v.konst) : "") + "</p>" +
+    '<p class="s">' + fd(v.dep) + "&ndash;" + fd(v.ret) + (v.reisetage ? " &middot; " + v.reisetage + " Tage" : "") + "</p>" +
+    (v.etappen ? v.etappen.map(e => '<p class="s">' + esc(e.von) + " &#8594; " + esc(e.nach) + " " + fd(e.datum) + " &middot; " + eur(e.preis) + " (" + umst(e.umstiege) + ")</p>").join("") :
+      '<p class="s">Hin ' + fdau(v.dauer_hin_min) + " (" + umst(v.umstiege_hin) + ") &middot; R&uuml;ck " + fdau(v.dauer_rueck_min) + " (" + umst(v.umstiege_rueck) + ")</p>") +
+    '<p class="s">' + esc(v.airline || "") + (v.url ? ' &middot; <a class="link" href="' + esc(v.url) + '" target="_blank" rel="noopener">Suche &ouml;ffnen</a>' : "") + "</p>" +
+    (v.unter ? '<span class="badge">unter Schwelle</span>' : "") +
+    "</div>" + preisHtml(v) + "</div>";
+}
+
+function vBestof(){
+  kopf("Urlaubspreise", "Stand " + D.stand + (modus === "rel" ? " · sortiert relativ zur Schwelle" : " · Top " + D.n_best));
+  const top = alle.slice().sort((a,b) => sortKey(a) - sortKey(b)).slice(0, D.n_best);
+  M.innerHTML = top.length ? top.map(v => karte(v, true)).join("") : '<p class="leer">Noch keine Daten.</p>';
+}
+
+function bestKey(k){ return k.routen.length ? sortKey(k.routen[0]) : 1e12; }
+
+function vReisen(){
+  kopf("Reisen", D.konstellationen.length + " Reisen");
+  const idx = D.konstellationen.map((k, i) => i);
+  if(modus === "rel") idx.sort((a,b) => bestKey(D.konstellationen[a]) - bestKey(D.konstellationen[b]));
+  M.innerHTML = idx.map(i => {
+    const k = D.konstellationen[i];
+    const best = k.routen.length ? k.routen[0] : null;
+    let ab = "&ndash;";
+    if(best){
+      if(modus === "rel" && best.schwelle != null){
+        ab = '<span style="color:' + (best.preis - best.schwelle <= 0 ? "var(--ok-tx)" : "var(--warn)") + '">ab ' + relTxt(best.preis - best.schwelle) + "</span>";
+      } else {
+        ab = "ab " + eur(best.preis);
+      }
+    }
+    return '<div class="card" style="cursor:pointer" onclick="location.hash=\'#reise/' + i + '\'">' +
+      '<div><p class="t">' + esc(k.name) + '</p><p class="s">' + k.routen.length + " Routen" + (k.schwelle ? " &middot; Schwelle " + eur(k.schwelle) : "") + "</p></div>" +
+      '<div class="preis">' + ab + ' <span style="color:var(--mut)">&#8250;</span></div></div>';
+  }).join("") || '<p class="leer">Noch keine Daten.</p>';
+}
+
+function vReise(i){
+  const k = D.konstellationen[i];
+  if(!k){ location.hash = "#reisen"; return; }
+  kopf(k.name, (k.schwelle ? "Schwelle " + eur(k.schwelle) + " · " : "") + "beste Verbindung je Route", true);
+  M.innerHTML = k.routen.map(v => karte(v, false)).join("") || '<p class="leer">Noch keine Daten.</p>';
+}
+
+function setF(i){ hFilter = i < 0 ? "" : NAMEN[i]; vHistorie(); }
+
+function histKarte(r){
+  return '<div class="card"><div>' +
+    '<p class="t">' + esc(r.orig) + " &#8594; " + esc(r.dest) + (hFilter ? "" : " &middot; " + esc(r.konstellation)) + "</p>" +
+    '<p class="s">' + fd(r.dep) + "&ndash;" + fd(r.ret) + " &middot; Hin " + umst(r.umstiege_hin) + " &middot; R&uuml;ck " + umst(r.umstiege_rueck) + "</p>" +
+    '<p class="s">' + esc(r.airline || "") + "</p>" +
+    "</div>" + preisHtml(r) + "</div>";
+}
+
+function vHistorie(){
+  kopf("Historie", "Tagesbestpreise der letzten 7 Tage");
+  const rows = D.historie.filter(r => !hFilter || r.konstellation === hFilter);
+  const tage = [...new Set(rows.map(r => r.datum))].sort().reverse();
+  let html = '<div class="chips"><button class="chip' + (hFilter ? "" : " on") + '" onclick="setF(-1)">Alle</button>' +
+    NAMEN.map((n, i) => '<button class="chip' + (hFilter === n ? " on" : "") + '" onclick="setF(' + i + ')">' + esc(n) + "</button>").join("") + "</div>";
+  html += tage.map(t => '<p class="tag">' + fdLang(t) + "</p>" +
+    rows.filter(r => r.datum === t).sort((a,b) => sortKey(a) - sortKey(b)).map(histKarte).join("")).join("");
+  M.innerHTML = tage.length ? html : html + '<p class="leer">Noch keine Historie.</p>';
+}
+
+function zeichneNav(akt){
+  N.innerHTML = [["#bestof","&#127942;","Best Of"],["#reisen","&#9992;&#65039;","Reisen"],["#historie","&#128197;","Historie"]]
+    .map(x => '<a href="' + x[0] + '" class="' + (akt === x[0].slice(1) ? "on" : "") + '"><span class="ic">' + x[1] + "</span>" + x[2] + "</a>").join("");
+}
+
+function render(){
+  const h = (location.hash || "#bestof").slice(1);
+  if(h.indexOf("reise/") === 0){ zeichneNav("reisen"); vReise(parseInt(h.slice(6), 10)); }
+  else if(h === "reisen"){ zeichneNav("reisen"); vReisen(); }
+  else if(h === "historie"){ zeichneNav("historie"); vHistorie(); }
+  else { zeichneNav("bestof"); vBestof(); }
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
